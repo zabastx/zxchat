@@ -1,0 +1,60 @@
+{
+  "name": "zxchat",
+  "version": "0.1.0",
+  "private": true,
+  "description": "vue websocket chat",
+  "author": {
+    "name": "Danil Popov",
+    "email": "zabastx@gmail.com"
+  },
+  "scripts": {
+    "devClient": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "devServer": "nodemon index"
+  },
+  "main": "index.js",
+  "_id": "zxchat@0.1.0",
+  "keywords": [
+    "vue",
+    "websocket",
+    "messanger"
+  ],
+  "license": "MIT",
+  "readme": "README.md",
+  "optionalDependencies": {
+    "bufferutil": "^4.0.5",
+    "utf-8-validate": "^5.0.7"
+  },
+  "dependencies": {
+    "@vue/cli-service-global": "^4.5.15",
+    "bcryptjs": "^2.4.3",
+    "core-js": "^3.6.5",
+    "crypto-js": "^4.1.1",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "express-validator": "^6.13.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongo-sanitize": "^1.1.0",
+    "mongoose": "^6.0.13",
+    "mosha-vue-toastify": "^1.0.23",
+    "socket.io": "^4.3.2",
+    "socket.io-client": "^4.3.2",
+    "uuid": "^8.3.2",
+    "vue": "^3.0.0",
+    "vue-3-socket.io": "^1.0.4",
+    "vue-router": "^4.0.0-0",
+    "vue-socket.io-extended": "^4.2.0",
+    "vue-spinner": "^1.0.4",
+    "vuex": "^4.0.0-0"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "~4.5.0",
+    "@vue/cli-plugin-router": "~4.5.0",
+    "@vue/cli-plugin-vuex": "~4.5.0",
+    "@vue/cli-service": "~4.5.0",
+    "@vue/compiler-sfc": "^3.0.0",
+    "nodemon": "^2.0.15",
+    "sass": "^1.26.5",
+    "sass-loader": "^8.0.2"
+  }
+}
