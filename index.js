@@ -74,6 +74,13 @@ io.on('connection', async socket => {
         const key = Object.keys(usersOnline).find(key => usersOnline[key] === socket.id)
         delete usersOnline[key]
         io.emit('UPDATE_ONLINE', Object.keys(usersOnline))
+    }),
+    socket.on('updateProfile', async (req, callback) => {
+        console.log('update prof', req)
+        const user = await User.findOne({ _id: req.id }).populate('contacts')
+        user.bio = req.bio
+        await user.save()
+        callback(user)
     })
 })
 

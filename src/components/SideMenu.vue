@@ -1,7 +1,10 @@
 <template>
   <section class="side-menu">
+		<transition name="slide">
+			<Settings v-show="showSettings" class="side-menu__settings" @close="showSettings = false" />
+		</transition>
 		<div class="side-menu__header">
-			<span class="material-icons active settings">settings</span>
+			<span class="material-icons active settings" @click="showSettings = true">settings</span>
 			<div class="side-menu__search">
 				<span class="material-icons search">search</span>
 				<input type="text" v-model.trim="search" @input="handleSearch" name="search" placeholder="Найти пользователей">
@@ -23,15 +26,18 @@
 <script>
 import Contacts from './Contacts.vue'
 import { mapGetters } from 'vuex'
+import { defineAsyncComponent } from '@vue/runtime-core'
 
 export default {
     name: 'side-menu',
 		data: () => ({
 			search: '',
-			tId: null
+			tId: null,
+			showSettings: false
 		}),
 		components: {
-			Contacts
+			Contacts,
+			Settings: defineAsyncComponent(() => import('./Settings.vue'))
 		},
 		computed: {
 			...mapGetters(['getUser', 'getSearch']),
@@ -58,6 +64,12 @@ export default {
 	position: relative;
 	display: flex;
 	flex-direction: column;
+	&__settings {
+		position: absolute;
+		left: 0;
+		top: 0;
+		z-index: 2;
+	}
 	&__resize {
 		position: absolute;
 		top: 0;
@@ -66,7 +78,7 @@ export default {
 		width: 2px;
 		background: #303030;
 		z-index: 2;
-		cursor: ew-resize;
+		// cursor: ew-resize;
 		user-select: none;
 	}
 	&__header {
@@ -127,4 +139,15 @@ export default {
 		}
 	}
 }
+
+.slide-enter-active,
+.slide-leave-active {
+  transition: transform 300ms ease;
+}
+
+.slide-enter-from,
+.slide-leave-to {
+  transform: translateX(-100%);
+}
+
 </style>

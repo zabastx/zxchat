@@ -11,7 +11,6 @@
 <script>
 import { mapGetters } from 'vuex'
 import { defineAsyncComponent } from 'vue'
-import notif from './assets/notif_sound.mp3'
 
 export default {
   name: 'Home',
@@ -95,6 +94,20 @@ body {
     &:hover {
       color: #8774e1;
     }
+  }
+}
+
+.btn {
+  background: #8774e1;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font: inherit;
+  cursor: pointer;
+  padding: 7px 10px;
+  font-weight: bold;
+  &:hover {
+    box-shadow: 0 0 5px #8774e1;
   }
 }
 </style>

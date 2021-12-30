@@ -10,7 +10,9 @@ const schema = new Schema({
         type: String,
         required: true
     },
-    contacts: [{ type: Types.ObjectId, ref: 'User' }]
+    contacts: [{ type: Types.ObjectId, ref: 'User' }],
+    bio: String,
+    userPic: String
 })
 
 module.exports = model('User', schema)
