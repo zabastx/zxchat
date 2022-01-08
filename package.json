@@ -8,23 +8,11 @@
     "email": "zabastx@gmail.com"
   },
   "scripts": {
-    "devClient": "vue-cli-service serve",
     "build": "vue-cli-service build",
+    "devClient": "vue-cli-service serve",
     "devServer": "nodemon index"
   },
   "main": "index.js",
-  "_id": "zxchat@0.1.0",
-  "keywords": [
-    "vue",
-    "websocket",
-    "messanger"
-  ],
-  "license": "MIT",
-  "readme": "README.md",
-  "optionalDependencies": {
-    "bufferutil": "^4.0.5",
-    "utf-8-validate": "^5.0.7"
-  },
   "dependencies": {
     "@vue/cli-service-global": "^4.5.15",
     "bcryptjs": "^2.4.3",
@@ -50,11 +38,25 @@
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",
     "@vue/cli-plugin-router": "~4.5.0",
+    "@vue/cli-plugin-typescript": "~4.5.0",
     "@vue/cli-plugin-vuex": "~4.5.0",
     "@vue/cli-service": "~4.5.0",
     "@vue/compiler-sfc": "^3.0.0",
     "nodemon": "^2.0.15",
     "sass": "^1.26.5",
-    "sass-loader": "^8.0.2"
-  }
+    "sass-loader": "^8.0.2",
+    "typescript": "~4.1.5"
+  },
+  "_id": "zxchat@0.1.0",
+  "keywords": [
+    "vue",
+    "websocket",
+    "messanger"
+  ],
+  "license": "MIT",
+  "optionalDependencies": {
+    "bufferutil": "^4.0.5",
+    "utf-8-validate": "^5.0.7"
+  },
+  "readme": "README.md"
 }
