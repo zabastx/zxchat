@@ -1,6 +1,6 @@
 <template>
   <div class="app">
-    <spinner v-show="$store.state.loading" />
+    <Spinner v-show="$store.state.loading" />
     <main class="app__view" v-show="!$store.state.loading">
       <SideMenu v-if="getVerified" class="app__side-menu"/>
       <router-view class="app__router" />
@@ -8,11 +8,11 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { mapGetters } from 'vuex'
-import { defineAsyncComponent } from 'vue'
+import { defineAsyncComponent, defineComponent } from 'vue'
 
-export default {
+export default defineComponent({
   name: 'Home',
   components: {
     SideMenu: defineAsyncComponent(() => import('./components/SideMenu.vue')),
@@ -26,13 +26,13 @@ export default {
   },
   created() {
     const token = localStorage.getItem('token')
-    this.$router.beforeEach((to, from) => {
+    this.$router.beforeEach((to): any => {
       if (to.meta.requiresAuth && !localStorage.getItem('token')) return { path: '/auth' }
       if (to.name === 'Chat') this.$store.dispatch('getMessages')
     })
     if (token) this.$store.dispatch('auth', { token, type: 'login' })
   }
-}
+})
 </script>
 
 <style lang="scss">

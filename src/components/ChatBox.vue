@@ -6,7 +6,7 @@
 				class="chat__form--textarea"
 				v-model.trim="message"
 				maxlength="300"
-				spellcheck="off"
+				spellcheck="false"
 				@keypress.enter.prevent="submit"></textarea>
 				<button class="material-icons chat__form--submit" @click.prevent="submit">send</button>
 			</form>	
@@ -21,11 +21,11 @@
 	</div>
 </template>
 
-<script>
-import { defineAsyncComponent } from 'vue'
+<script lang="ts">
+import { defineAsyncComponent, defineComponent } from 'vue'
 import { mapGetters } from 'vuex'
 
-export default {
+export default defineComponent({
 	name: 'chat-box',
 	components: {
 		TextMessage: defineAsyncComponent(() => import('./TextMessage.vue'))
@@ -40,11 +40,7 @@ export default {
 		}
 	},
 	methods: {
-		submit(e) {
-			// if (e.ctrlKey) {
-			// 	this.message += '\n'
-			// 	return
-			// }
+		submit() {
 			if (!this.message) return
 			const { getUser, message, getSelectedID } = this
 			this.$socket.emit('privateMsg', {
@@ -54,11 +50,12 @@ export default {
 			})
 			this.message = ''
 		},
-		enter() {
-			this.$refs.messages.scrollTop = this.$refs.messages.scrollHeight
+		enter(): void {
+			const messages = this.$refs.messages as HTMLDivElement
+			messages.scrollTop = messages.scrollHeight
 		}
 	}
-}
+})
 </script>
 
 <style lang="scss" scoped>

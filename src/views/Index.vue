@@ -4,15 +4,16 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import { defineComponent } from "vue"
 import { version } from '../../package.json'
 
-export default {
+export default defineComponent({
     name: 'Index',
     data: () => ({
       version
     })
-}
+})
 </script>
 
 <style lang="scss" scoped>

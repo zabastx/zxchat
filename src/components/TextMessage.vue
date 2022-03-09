@@ -8,22 +8,28 @@
 	</div>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import { MessageType } from "@/types/vuex"
+import { defineComponent, PropType } from "vue"
+
+export default defineComponent({
 	name: 'text-message',
 	props: {
 		text: String,
-		msg: Object
+		msg: {
+			type: Object as PropType<MessageType>,
+			default: {}
+		}
 	},
 	computed: {
-		msgDate() {
+		msgDate(): string {
 			return new Date(this.msg.date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
 		},
-		own() {
+		own(): boolean {
 			return this.msg.sender === this.$store.getters.getUser._id
 		}
 	}
-}
+})
 </script>
 
 <style lang="scss" scoped>

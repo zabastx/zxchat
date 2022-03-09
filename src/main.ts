@@ -5,8 +5,9 @@ import store from './store'
 import VueSocketIO from 'vue-3-socket.io'
 import { io, Socket } from 'socket.io-client'
 import Spinner from './components/Spinner.vue'
+import { ClientToServer } from './types/socket'
 
-const socket: Socket = io('/')
+const socket: Socket<any, ClientToServer> = io('/')
 
 createApp(App).use(store).use(router).use(new VueSocketIO({
 	debug: true,
@@ -16,4 +17,5 @@ createApp(App).use(store).use(router).use(new VueSocketIO({
 		mutationPrefix: "SOCKET_",
 		actionPrefix: "SOCKET_"
 	}
-})).component('spinner', Spinner).mount('#app')
+}))
+.component('spinner', Spinner).mount('#app')

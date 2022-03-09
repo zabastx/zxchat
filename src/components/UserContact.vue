@@ -11,27 +11,34 @@
 	</div>
 </template>
 
-<script>
+<script lang="ts">
+import { UserType } from '@/types/vuex'
+import { defineComponent, PropType } from 'vue'
 import { mapState } from 'vuex'
-export default {
+
+export default defineComponent({
 	name: 'user-contact',
 	props: {
-		user: Object
+		user: {
+			type: Object as PropType<UserType>,
+			required: true
+		}
 	},
 	computed: {
 		...mapState(['usersOnline', 'unreadChats']),
 		lastMsg() {
-			const messages = this.$store.getters['getMessages'][this.user._id || this.user.id] || []
+			const id = this.user._id || this.user.id as string
+			const messages = this.$store.getters['getMessages'][id] || []
 			return messages[0]?.content
 		},
-		isOnline() {
+		isOnline(): boolean {
 			return this.usersOnline.includes(this.user._id || this.user.id)
 		},
-		hasNewMsg() {
+		hasNewMsg(): boolean {
 			return this.unreadChats.has(this.user._id || this.user.id)
 		}
 	}
-}
+})
 </script>
 
 <style lang="scss" scoped>

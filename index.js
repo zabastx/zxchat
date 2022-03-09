@@ -10,6 +10,7 @@ const { Server } = require('socket.io')
 const uuid = require('uuid')
 const mongo = require('./mongo')
 const { join, resolve } = require('path')
+const siofu = require("socketio-file-upload")
 
 const io = new Server(httpServer)
 
@@ -24,6 +25,7 @@ io.on('connection', async socket => {
         if (reg.error) return console.log(reg.error)
         const res = await mongo.login({ username, password })
         usersOnline[res.user._id] = socket.id
+        if (res.user) delete res.user.password
         callback(res)
         io.emit('UPDATE_ONLINE', Object.keys(usersOnline))
     })
@@ -32,6 +34,7 @@ io.on('connection', async socket => {
         if (token) res = await mongo.verify(token)
         if (username) res = await mongo.login({ username, password })
         if (res.success) usersOnline[res.user._id] = socket.id
+        if (res.user) delete res.user.password
         callback(res)
         io.emit('UPDATE_ONLINE', Object.keys(usersOnline))
     })
@@ -44,7 +47,8 @@ io.on('connection', async socket => {
         const regex = new RegExp(req, 'i')
         const users = await User.find({ username: { $regex: regex } })
         const search = users.map(user => {
-            return { username: user.username, id: user._id }
+            delete user.password
+			return user
         })
         callback(search)
     })
@@ -84,7 +88,7 @@ io.on('connection', async socket => {
     })
 })
 
-app.use('/', express.static(join(__dirname, 'dist')))
+app.use('/', express.static(join(__dirname, 'dist'))).use(siofu.router)
 app.get('*', (req, res) => {
     res.sendFile(resolve(__dirname, 'dist', 'index.html'))
 })

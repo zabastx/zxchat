@@ -1,9 +1,9 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 
-const routes = [
+const routes: RouteRecordRaw[] = [
   {
     path: '/:pathMatch(.*)*',
-    redirect: to => {
+    redirect: () => {
       if (localStorage.getItem('token')) return {
         path: '/'
       }

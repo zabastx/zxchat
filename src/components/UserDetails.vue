@@ -11,26 +11,35 @@
 	</section>
 </template>
 
-<script>
-import { mapGetters } from 'vuex'
+<script lang="ts">
+import { UserType } from '@/types/vuex'
+import { defineComponent } from 'vue'
 import UserContact from './UserContact.vue'
 
-export default {
+export default defineComponent({
 	name: 'user-details',
 	components: {
 		UserContact
 	},
 	computed: {
-		...mapGetters(['getUser', 'getSelectedUser']),
-		username() {
-			return this.$route.params.username
+		username(): string {
+			return this.$route.params.username as string
 		},
-		isContact() {
-			return this.getUser.contacts?.some(user => user._id === this.getSelectedUser._id)
+		isContact(): boolean {
+			return this.getUser.contacts?.some((user: UserType) => user._id === this.getSelectedUser._id)
+		},
+		getUser(): UserType {
+			return this.$store.getters['getUser']
+		},
+		getSelectedUser(): UserType {
+			return this.$store.getters['getSelectedUser']
+		},
+		getSelectedID(): string {
+			return this.$store.getters['getSelectedID']
 		}
 	},
 	methods: {
-		changeContacts(type) {
+		changeContacts(type: string): void {
 			const { getSelectedUser, getUser } = this
 			this.$store.dispatch('changeContacts', {
 				type,
@@ -47,7 +56,7 @@ export default {
 			}
 		}
 	}
-}
+})
 </script>
 
 <style lang="scss" scoped>

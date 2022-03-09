@@ -7,7 +7,7 @@ import { createToast } from 'mosha-vue-toastify'
  * @param {('success'|'danger'|'info'|'warning'|'default')} type - тип оповещения
  */
 
-export function toastify(type, text) {
+export function toastify(type: any, text: string) {
 	createToast(text, {
 		position: 'bottom-center',
 		type,

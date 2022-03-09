@@ -23,16 +23,17 @@
 	</section>
 </template>
 
-<script>
+<script lang="ts">
 import Contacts from './Contacts.vue'
 import { mapGetters } from 'vuex'
-import { defineAsyncComponent } from '@vue/runtime-core'
+import { defineAsyncComponent, defineComponent } from '@vue/runtime-core'
+import { UserType } from '@/types/vuex'
 
-export default {
+export default defineComponent({
     name: 'side-menu',
 		data: () => ({
 			search: '',
-			tId: null,
+			tId: 0,
 			showSettings: false
 		}),
 		components: {
@@ -41,7 +42,7 @@ export default {
 		},
 		computed: {
 			...mapGetters(['getUser', 'getSearch']),
-			contacts() {
+			contacts(): UserType[] {
 				if (this.search) return this.getSearch
 				return this.getUser.contacts
 			}
@@ -55,7 +56,7 @@ export default {
 				}, 300)
 			}
 		}
-}
+})
 </script>
 
 <style lang="scss" scoped>
@@ -113,7 +114,7 @@ export default {
 			position: absolute;
 			right: 10px;
 			top: 0;
-			transform: translateY(50%);
+			transform: translateY(40%);
 		}
 		input {
 			width: 100%;

@@ -27,6 +27,7 @@
     "mosha-vue-toastify": "^1.0.23",
     "socket.io": "^4.3.2",
     "socket.io-client": "^4.3.2",
+    "socketio-file-upload": "^0.7.3",
     "uuid": "^8.3.2",
     "vue": "^3.0.0",
     "vue-3-socket.io": "^1.0.4",

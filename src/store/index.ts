@@ -1,21 +1,26 @@
-import { createStore } from 'vuex'
+import { createStore, GetterTree } from 'vuex'
 import router from '../router'
 import { toastify } from '../utils'
 import notif from '../assets/notif_sound.mp3'
+import { State } from 'vue'
+import { AuthResponse, Messages, UserType } from '@/types/vuex'
+import { Socket } from 'socket.io-client'
+
+const state: State = {
+  socket: {} as Socket,
+  verified: false,
+  user: {} as UserType,
+  search: '',
+  selectedUser: {} as UserType,
+  messages: {} as Messages,
+  loading: false,
+  notif: new Audio(notif),
+  usersOnline: [],
+  unreadChats: new Set()
+}
 
 export default createStore({
-  state: {
-    socket: null,
-    verified: null,
-		user: {},
-    search: null,
-    selectedUser: {},
-    messages: {},
-    loading: false,
-    notif: new Audio(notif),
-    usersOnline: [],
-    unreadChats: new Set()
-  },
+  state,
   mutations: {
     SET_VERIFIED(state, value) {
       state.verified = value
@@ -38,7 +43,7 @@ export default createStore({
     UPDATE_USER(state, value) {
       state.user = value
     },
-    ADD_MESSAGE(state, value) {
+    ADD_MESSAGE(state, value: Messages) {
       if (state.messages[value.chat]) return state.messages[value.chat].unshift(value.msg)
       state.messages[value.chat] = [value.msg]
     },
@@ -57,18 +62,18 @@ export default createStore({
   },
   getters: {
     getUser: ({ user }) => user,
-    getUserID: ({ user }) => user._id || user.id,
+    getUserID: ({ user }) => user._id || user.id as string,
     getSearch: ({ search }) => search,
     getVerified: ({ verified }) => verified,
     getSelectedUser: ({ selectedUser }) => selectedUser,
-    getSelectedID: ({ selectedUser }) => selectedUser._id || selectedUser.id,
+    getSelectedID: ({ selectedUser }) => selectedUser._id || selectedUser.id as string,
     getMessages: ({ messages }) => messages,
     getUnreadChats: ({ unreadChats }) => unreadChats
   },
   actions: {
     auth({ state, commit }, data) {
       commit('SET_LOADING', true)
-      state.socket.emit(data.type, data, res => {
+      state.socket.emit(data.type, data, (res: AuthResponse) => {
         const { user, token, success } = res
 
         if (!success) {
@@ -79,11 +84,10 @@ export default createStore({
           return commit('SET_LOADING', false)
         }
 
-        delete user.password
         commit('SET_USER', user)
         commit('SET_VERIFIED', true)
-        localStorage.setItem('token', token)
-        toastify('success', `Вы вошли как ${user.username}`)
+        if (token) localStorage.setItem('token', token)
+        toastify('success', `Вы вошли как ${user?.username}`)
         router.push('/')
         commit('SET_LOADING', false)
       })
@@ -96,12 +100,12 @@ export default createStore({
       router.push('/auth')
     },
     userSearch({ state, commit }, search) {
-      state.socket.emit('userSearch', search, res => {
+      state.socket.emit('userSearch', search, (res: UserType[]) => {
         commit('SET_SEARCH', res)
       })
     },
     changeContacts({ state, commit }, req) {
-      state.socket.emit(req.type, req, res => {
+      state.socket.emit(req.type, req, (res: any) => {
         commit('UPDATE_USER', res)
         switch (req.type) {
           case 'addContact':

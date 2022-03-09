@@ -6,13 +6,14 @@
 	</div>
 </template>
 
-<script>
-import { defineAsyncComponent } from 'vue'
+<script lang="ts">
+import { UserType } from '@/types/vuex'
+import { defineAsyncComponent, defineComponent, PropType } from 'vue'
 
-export default {
+export default defineComponent({
 	name: 'contacts',
 	props: {
-		contacts: Array
+		contacts: Object as PropType<UserType[]>
 	},
 	data: () => ({
 		search: '',
@@ -21,7 +22,7 @@ export default {
 	components: {
 		UserContact: defineAsyncComponent(() => import('./UserContact.vue'))
 	}
-}
+})
 </script>
 
 <style lang="scss" scoped>

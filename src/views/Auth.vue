@@ -7,7 +7,7 @@
 				<button class="register" @click="formType = 'reg'">Регистрация</button>
 			</div>
 			<form v-else class="auth__form" @submit.prevent="onSubmit">
-				<h2><span class="material-icons active" @click="formType = null">arrow_back</span> {{ formType === 'reg' ? 'Регистрация': 'Вход' }}</h2>
+				<h2><span class="material-icons active" @click="formType = ''">arrow_back</span> {{ formType === 'reg' ? 'Регистрация': 'Вход' }}</h2>
 				<label class="auth__form--username">
 					<span>Никнейм</span>
 					<input type="text" name="username" autocomplete="off" v-model.trim="username" required minlength="3" maxlength="20">
@@ -22,16 +22,18 @@
 	</div>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import { defineComponent } from "vue"
+
+export default defineComponent({
   name: 'Auth',
 	data: () => ({
 		username: '',
 		password: '',
-		formType: null
+		formType: ''
 	}),
 	methods: {
-		async onSubmit() {
+		async onSubmit(): Promise<void> {
 			const { username, password } = this
 			if (this.formType === 'reg') return this.$store.dispatch('auth', { username, password, type: 'register' })
 			this.$store.dispatch('auth', { username, password, type: 'login' })
@@ -45,7 +47,7 @@ export default {
 	created() {
 		if (this.$store.state.verified) this.$router.push('/')
 	}
-}
+})
 </script>
 
 <style lang="scss" scoped>

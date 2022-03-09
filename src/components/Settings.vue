@@ -4,18 +4,21 @@
 			<span class="material-icons active back" @click="$emit('close')">arrow_back</span>
 			<UserContact class="settings__header--user" :user="getUser" />
 		</div>
-		<div class="settings__info">
-			<input type="text" placeholder="О себе" maxlength="70" v-model="bio" @change="changed = true">
-			<button v-show="changed" class="btn" type="button" @click="updateProfile">Сохранить</button>
-		</div>
+		<form class="settings__info">
+			<input type="text" placeholder="О себе" maxlength="70" v-model="bio" @input.once="changed = true">
+			<!-- <input type="file" accept="image/*"> -->
+			<button v-show="changed" class="btn" @click.prevent="updateProfile">Сохранить</button>
+		</form>
 	</aside>
 </template>
 
-<script>
+<script lang="ts">
+import { UserType } from '@/types/vuex'
+import { defineComponent } from 'vue'
 import { mapGetters } from 'vuex'
 import UserContact from './UserContact.vue'
 
-export default {
+export default defineComponent({
 	name: 'settings',
 	components: {
 		UserContact
@@ -29,7 +32,7 @@ export default {
 	},
 	methods: {
 		updateProfile() {
-			this.$socket.emit('updateProfile', { bio: this.bio, id: this.getUser._id || this.getUser.id }, res => {
+			this.$socket.emit('updateProfile', { bio: this.bio, id: this.getUser._id || this.getUser.id }, (res: UserType) => {
 				this.$store.commit('SET_USER', res)
 				this.changed = false
 			})
@@ -38,7 +41,7 @@ export default {
 	mounted() {
 		this.bio = this.getUser.bio || ''
 	}
-}
+})
 </script>
 
 <style lang="scss" scoped>
@@ -46,6 +49,7 @@ export default {
 	width: 100%;
 	height: 100%;
 	background: #212121;
+	box-shadow: 0 0 5px black;
 	&__header {
 		display: flex;
 		height: 64px;
@@ -72,6 +76,9 @@ export default {
 			width: 100%;
 			height: 32px;
 			border-bottom: 1px solid grey;
+			box-shadow: inset 0 0 5px black;
+			padding: 5px 10px;
+			border-radius: 5px;
 			&:focus {
 				border-bottom: 2px solid #8774e1;
 			}
