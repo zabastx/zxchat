@@ -1,6 +1,6 @@
 {
   "name": "zxchat",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "description": "vue websocket chat",
   "author": {
@@ -48,7 +48,6 @@
     "sass-loader": "^8.0.2",
     "typescript": "~4.1.5"
   },
-  "_id": "zxchat@0.1.0",
   "keywords": [
     "vue",
     "websocket",
