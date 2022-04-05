@@ -1,5 +1,7 @@
 # zxchat
 
+## [zxchat demo](https://zxchat.site/)
+
 ## Project setup
 ```
 yarn install
